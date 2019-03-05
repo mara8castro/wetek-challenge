@@ -3,6 +3,9 @@ package com.athome.playing.wetek_challenge.model;
 import com.athome.playing.wetek_challenge.Channel2;
 import com.athome.playing.wetek_challenge.ChannelTypeUtils;
 
+/**
+ * Class that plays an image channel
+ */
 public class ImagePlayer extends Player {
 
     private int mChannel = -1;

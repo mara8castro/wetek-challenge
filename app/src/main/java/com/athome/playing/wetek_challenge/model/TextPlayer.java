@@ -3,6 +3,9 @@ package com.athome.playing.wetek_challenge.model;
 import com.athome.playing.wetek_challenge.Channel1;
 import com.athome.playing.wetek_challenge.ChannelTypeUtils;
 
+/**
+ * Class that plays a text channel
+ */
 public class TextPlayer extends Player {
     private String mChannel = "";
 

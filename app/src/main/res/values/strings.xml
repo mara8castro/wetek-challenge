@@ -3,4 +3,5 @@
     <string name="channel1_button_text">Channel 1</string>
     <string name="channel2_button_text">Channel 2</string>
     <string name="clear_text">Clear all</string>
+    <string name="error_msg">Sorry! This channel had an issue.</string>
 </resources>

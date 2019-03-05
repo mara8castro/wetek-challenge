@@ -2,11 +2,11 @@ package com.athome.playing.wetek_challenge.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.athome.playing.wetek_challenge.ChannelTypeUtils;
 import com.athome.playing.wetek_challenge.R;
@@ -70,9 +70,12 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
                 mOutputImage.setVisibility(android.view.View.GONE);
 
             }
-        } else {
-            Log.d("Main Activity: ", "sorry, no string for you!");
         }
+    }
+
+    @Override
+    public void showError() {
+        Toast.makeText(this, R.string.error_msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -85,8 +88,6 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
             if (mOutputString != null) {
                 mOutputString.setVisibility(android.view.View.GONE);
             }
-        } else {
-            Log.d("Main Activity: ", "sorry, no image for you!");
         }
     }
 }

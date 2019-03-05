@@ -25,19 +25,50 @@ public class MainPresenter {
     }
 
     public void playChannel(final ChannelTypeUtils.ChannelType type) {
+
         if (type == ChannelTypeUtils.ChannelType.TYPE_TEXT) {
+
             mTextPlayer.play(type);
-            mView.showText(mTextPlayer.getChannel());
+
+            final String channel = mTextPlayer.getChannel();
+            if (!channel.isEmpty()) {
+                mView.showText(channel);
+            } else {
+                mView.showError();
+            }
+
         } else if (type == ChannelTypeUtils.ChannelType.TYPE_IMAGE) {
+
             mImagePlayer.play(type);
-            mView.showImage(mImagePlayer.getChannel());
+
+            final int channel = mImagePlayer.getChannel();
+            if (channel != -1) {
+                mView.showImage(channel);
+            } else {
+                mView.showError();
+            }
         }
     }
 
 
     public interface View {
+        /**
+         * Shows the channel containing a string
+         *
+         * @param text The text present in a channel
+         */
         void showText(final String text);
 
+        /**
+         * Shows the user an error msg when a channel was not reproducible
+         */
+        void showError();
+
+        /**
+         * Shows the channel containing an image
+         *
+         * @param drawable The image present in a channel
+         */
         void showImage(final int drawable);
     }
 
