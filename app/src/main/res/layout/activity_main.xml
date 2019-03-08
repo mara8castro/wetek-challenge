@@ -10,6 +10,8 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
         android:animateLayoutChanges="true">
 
         <Button
@@ -43,7 +45,8 @@
             android:layout_width="wrap_content"
             android:layout_height="224dp"
             android:layout_marginTop="@dimen/default_margin"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:contentDescription="@string/image_channel" />
 
     </LinearLayout>
 

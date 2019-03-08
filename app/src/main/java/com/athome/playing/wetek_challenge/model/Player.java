@@ -2,15 +2,17 @@ package com.athome.playing.wetek_challenge.model;
 
 import com.athome.playing.wetek_challenge.ChannelTypeUtils;
 
+import io.reactivex.Observable;
+
 public abstract class Player {
 
-    protected ChannelTypeUtils.ChannelType mChannelType;
+    ChannelTypeUtils.ChannelType mChannelType;
 
-    public abstract void play(final ChannelTypeUtils.ChannelType channelType);
+    public abstract Observable<Boolean> play(final ChannelTypeUtils.ChannelType channelType);
 
     public abstract void setup();
 
-    public Player() {
+    Player() {
         setup();
     }
 }

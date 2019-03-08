@@ -2,8 +2,6 @@ package com.athome.playing.wetek_challenge.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,26 +24,11 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         mPresenter = new MainPresenter(this);
         mPresenter.preparePlayers();
 
-        findViewById(R.id.channel1_btn).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                mPresenter.playChannel(ChannelTypeUtils.ChannelType.TYPE_TEXT);
-            }
-        });
+        findViewById(R.id.channel1_btn).setOnClickListener(view -> mPresenter.playChannel(ChannelTypeUtils.ChannelType.TYPE_TEXT));
 
-        findViewById(R.id.channel2_btn).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                mPresenter.playChannel(ChannelTypeUtils.ChannelType.TYPE_IMAGE);
-            }
-        });
+        findViewById(R.id.channel2_btn).setOnClickListener(view -> mPresenter.playChannel(ChannelTypeUtils.ChannelType.TYPE_IMAGE));
 
-        findViewById(R.id.clear_all_text).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final android.view.View view) {
-                reset();
-            }
-        });
+        findViewById(R.id.clear_all_text).setOnClickListener(view -> reset());
     }
 
     private void reset() {
@@ -56,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         if (mOutputImage != null) {
             mOutputImage.setVisibility(android.view.View.GONE);
         }
+        mPresenter.resetPlayers();
     }
 
 

@@ -1,10 +1,19 @@
 package com.athome.playing.wetek_challenge.presenter;
 
+import android.util.Log;
+
 import com.athome.playing.wetek_challenge.ChannelTypeUtils;
 import com.athome.playing.wetek_challenge.model.ImagePlayer;
 import com.athome.playing.wetek_challenge.model.TextPlayer;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 public class MainPresenter {
+
+    private static final String TAG = "MainPresenter";
 
     private final View mView;
     private TextPlayer mTextPlayer;
@@ -24,32 +33,103 @@ public class MainPresenter {
         }
     }
 
+    public void resetPlayers() {
+        mTextPlayer = null;
+        mImagePlayer = null;
+    }
+
     public void playChannel(final ChannelTypeUtils.ChannelType type) {
+
+        // make sure we have players
+        preparePlayers();
 
         if (type == ChannelTypeUtils.ChannelType.TYPE_TEXT) {
 
-            mTextPlayer.play(type);
+            final Observer<Boolean> playTextChannel = playTextChannel();
 
-            final String channel = mTextPlayer.getChannel();
-            if (!channel.isEmpty()) {
-                mView.showText(channel);
-            } else {
-                mView.showError();
-            }
-
+            // play text channel
+            mTextPlayer.play(type)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(playTextChannel);
         } else if (type == ChannelTypeUtils.ChannelType.TYPE_IMAGE) {
 
-            mImagePlayer.play(type);
+            final Observer<Boolean> playImageChannel = playImageChannel();
 
-            final int channel = mImagePlayer.getChannel();
-            if (channel != -1) {
-                mView.showImage(channel);
-            } else {
-                mView.showError();
-            }
+            // play image channel
+            mImagePlayer.play(type)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(playImageChannel);
         }
     }
 
+
+    private Observer<Boolean> playImageChannel() {
+        return new Observer<Boolean>() {
+            @Override
+            public void onSubscribe(final Disposable d) {
+                // improvement: add a loader here and remove it onComplete
+            }
+
+            @Override
+            public void onNext(final Boolean readyToPlay) {
+
+                if (readyToPlay) {
+                    final int channel = mImagePlayer.getChannel();
+                    if (channel != -1) {
+                        mView.showImage(channel);
+                        return;
+                    }
+                }
+                mView.showError();
+            }
+
+            @Override
+            public void onError(final Throwable e) {
+                Log.e(TAG, "onError: " + e.getMessage());
+                mView.showError();
+            }
+
+            @Override
+            public void onComplete() {
+                // improvement: add a loader onSubscribe and remove it here
+            }
+        };
+    }
+
+    private Observer<Boolean> playTextChannel() {
+        return new Observer<Boolean>() {
+            @Override
+            public void onSubscribe(final Disposable d) {
+                // improvement: add a loader here and remove it onComplete
+            }
+
+            @Override
+            public void onNext(final Boolean readyToPlay) {
+
+                if (readyToPlay) {
+                    final String channel = mTextPlayer.getChannel();
+                    if (!channel.isEmpty()) {
+                        mView.showText(channel);
+                        return;
+                    }
+                }
+                mView.showError();
+            }
+
+            @Override
+            public void onError(final Throwable e) {
+                Log.e(TAG, "onError: " + e.getMessage());
+                mView.showError();
+            }
+
+            @Override
+            public void onComplete() {
+                // improvement: add a loader onSubscribe and remove it here
+            }
+        };
+    }
 
     public interface View {
         /**
